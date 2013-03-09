@@ -64,5 +64,18 @@ public class DataAccessObject
 		// for the same room do not overlap
 	}
 	
+	//Module 4 - Room Maintenance and Billing
+	public void roomMaintenance()
+	{
+		// The administrative staff can use a separate interface to list all the
+		// arrivals (i.e., the current date equals startDate) and all the
+		// departures (i.e., the current date equals endDate) on a specific day
+		// to ensure that the rooms are maintained before and after guest
+		// arrivals, respectively. Finally, the administrative staff can print
+		// bills for the departing guests (display on screen is sufficient),
+		// based on the number of days stayed and the applicable room price.
+		// Each bill printed should also be logged into the billing log for the
+		// accounting purposes.
+	}
 	
 }
