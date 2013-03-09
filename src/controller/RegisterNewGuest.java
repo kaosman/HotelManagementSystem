@@ -22,6 +22,7 @@ through the API or by the DBMS itself.
 * 
 * @author Guest
 */
+//@WebServlet(name = "RegisterNewGuest", urlPatterns = {"/RegisterNewGuest/RegisterNewGuest.jsp"})
 @WebServlet("/RegisterNewGuest")
 public class RegisterNewGuest extends HttpServlet
 {
@@ -48,9 +49,22 @@ public class RegisterNewGuest extends HttpServlet
 		this.dataAccessObject.registerNewGuest(newGuest); //newPatientRecord object data is sent as a parameter to the DAO method update patient's personal record
 	}
 	
+//	protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+//	{
+//		doPost(request,response);
+//	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		/* Redirect to book-form. */
+		getServletContext().getRequestDispatcher("/WEB-INF/RegisterNewGuest/RegisterNewGuest.jsp").forward(
+				request, response);
+	}
+	
 	// TODO make sure that all the form input names match with the getParams in the function
 		private Guest newGuestInfo(HttpServletRequest request,HttpServletResponse resp)
 		{	
+			Guest newGuest = new Guest();
 			final int guestID = 2015;
 			final String guestName = request.getParameter("GuestName");
 			if(!guestName.equals(""))

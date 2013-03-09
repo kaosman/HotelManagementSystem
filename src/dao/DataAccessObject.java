@@ -6,6 +6,9 @@ import model.Room;
 import model.Booking;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DataAccessObject 
@@ -15,16 +18,36 @@ public class DataAccessObject
 	
 	public DataAccessObject() 
 	{
-		this.connectionHotel=this.serviceProvider.getConnection(); 
+		this.serviceProvider = new ServiceProvider();
+		this.connectionHotel=this.serviceProvider.getConnection();
 	}
 	
 	//Required DB operation methods
 	//Module 1 - Guest registration
-	public void registerNewGuest(Guest guest)
+	public boolean registerNewGuest(Guest guest)
 	{
 		// A booking agent registers a new guest and enters their information,
 		// including the name and address. The guestID is auto-generated, either
 		// through the API or by the DBMS itself.
+		
+		final String sql = "INSERT INTO Guest(guestid,guestname,guestaddress,guestaffiliation) VALUES (?,?,?,?)";
+		
+		try{
+			
+			PreparedStatement statement = connectionHotel.prepareStatement(sql);
+			
+			statement.setInt(1, guest.getGuestID());
+			statement.setString(2, guest.getGuestName());
+			statement.setString(3, guest.getGuestAddress());
+			statement.setString(4, guest.getguestAffiliation());
+			statement.execute();
+			
+			return true;
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	public void updateExistingGuest(String guestID)
