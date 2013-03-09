@@ -3,9 +3,9 @@ package model;
 public class Guest 
 {	
 	//Class variables
-	private String guestID;
+	private int guestID;
 	private String guestAddress;
-	private String guestAffliation;
+	private String guestAffiliation;
 	private String guestName;
 	
 	public Guest()
@@ -13,21 +13,21 @@ public class Guest
 		
 	}
 	
-	public Guest(String guestID, String guestAddress, String guestAffliation,
+	public Guest(int guestID, String guestAddress, String guestAffiliation,
 			String guestName) 
 	{
 		super();
 		this.guestID = guestID;
 		this.guestAddress = guestAddress;
-		this.guestAffliation = guestAffliation;
+		this.guestAffiliation = guestAffiliation;
 		this.guestName = guestName;
 	}
 
-	public String getGuestID() {
+	public int getGuestID() {
 		return guestID;
 	}
 
-	public void setGuestID(String guestID) {
+	public void setGuestID(int guestID) {
 		this.guestID = guestID;
 	}
 
@@ -39,12 +39,12 @@ public class Guest
 		this.guestAddress = guestAddress;
 	}
 
-	public String getGuestAffliation() {
-		return guestAffliation;
+	public String getguestAffiliation() {
+		return guestAffiliation;
 	}
 
-	public void setGuestAffliation(String guestAffliation) {
-		this.guestAffliation = guestAffliation;
+	public void setGuestAffiliation(String guestAffiliation) {
+		this.guestAffiliation = guestAffiliation;
 	}
 
 	public String getGuestName() {
