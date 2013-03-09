@@ -15,14 +15,21 @@ public class Guest
 	
 	public Guest(int guestID, String guestAddress, String guestAffiliation,
 			String guestName) 
-	{
-		super();
+	{	
 		this.guestID = guestID;
 		this.guestAddress = guestAddress;
 		this.guestAffiliation = guestAffiliation;
 		this.guestName = guestName;
 	}
 
+	public Guest(String guestAddress, String guestAffiliation,
+			String guestName) 
+	{	
+		this.guestAddress = guestAddress;
+		this.guestAffiliation = guestAffiliation;
+		this.guestName = guestName;
+	}
+	
 	public int getGuestID() {
 		return guestID;
 	}

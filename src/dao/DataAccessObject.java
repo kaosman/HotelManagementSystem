@@ -30,16 +30,15 @@ public class DataAccessObject
 		// including the name and address. The guestID is auto-generated, either
 		// through the API or by the DBMS itself.
 		
-		final String sql = "INSERT INTO Guest(guestid,guestname,guestaddress,guestaffiliation) VALUES (?,?,?,?)";
+		final String sql = "INSERT INTO Guest(guestname,guestaddress,guestaffiliation) VALUES (?,?,?)";
 		
 		try{
 			
 			PreparedStatement statement = connectionHotel.prepareStatement(sql);
 			
-			statement.setInt(1, guest.getGuestID());
-			statement.setString(2, guest.getGuestName());
-			statement.setString(3, guest.getGuestAddress());
-			statement.setString(4, guest.getguestAffiliation());
+			statement.setString(1, guest.getGuestName());
+			statement.setString(2, guest.getGuestAddress());
+			statement.setString(3, guest.getguestAffiliation());
 			statement.execute();
 			
 			return true;

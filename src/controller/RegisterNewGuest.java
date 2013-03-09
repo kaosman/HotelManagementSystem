@@ -65,7 +65,7 @@ public class RegisterNewGuest extends HttpServlet
 		private Guest newGuestInfo(HttpServletRequest request,HttpServletResponse resp)
 		{	
 			Guest newGuest = new Guest();
-			final int guestID = 2015;
+			
 			final String guestName = request.getParameter("GuestName");
 			if(!guestName.equals(""))
 			{
@@ -95,7 +95,7 @@ public class RegisterNewGuest extends HttpServlet
 			}
 			else
 			{
-				newGuest = new Guest(guestID, guestAddress, guestAffiliation, guestName);
+				newGuest = new Guest(guestAddress, guestAffiliation, guestName);
 				return newGuest;
 			}
 			return null;

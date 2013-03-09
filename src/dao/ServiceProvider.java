@@ -16,7 +16,7 @@ public class ServiceProvider
 	private Connection connectionHotel= null;
 	private final String username = "postgres";
 	private final String password = "root";
-	private final String databaseurl = "jdbc:postgresql://localhost:5432/Hotel_Database";
+	private final String databaseurl = "jdbc:postgresql://localhost:5432/HotelManagementSystem";
 	
 	//Object of class service provider
 	private static ServiceProvider serviceProvider = new ServiceProvider();
