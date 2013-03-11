@@ -38,7 +38,7 @@ public class DataAccessObject
 			
 			statement.setString(1, guest.getGuestName());
 			statement.setString(2, guest.getGuestAddress());
-			statement.setString(3, guest.getguestAffiliation());
+			statement.setString(3, guest.getGuestAffiliation());
 			statement.execute();
 			
 			return true;

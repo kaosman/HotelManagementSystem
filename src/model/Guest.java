@@ -22,6 +22,7 @@ public class Guest
 		this.guestName = guestName;
 	}
 
+
 	public Guest(String guestAddress, String guestAffiliation,
 			String guestName) 
 	{	
@@ -30,6 +31,7 @@ public class Guest
 		this.guestName = guestName;
 	}
 	
+
 	public int getGuestID() {
 		return guestID;
 	}
@@ -46,7 +48,7 @@ public class Guest
 		this.guestAddress = guestAddress;
 	}
 
-	public String getguestAffiliation() {
+	public String getGuestAffiliation() {
 		return guestAffiliation;
 	}
 

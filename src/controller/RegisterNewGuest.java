@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import dao.DataAccessObject;
 
+import model.Hotel;
 import model.Guest;
 
 /**A booking agent registers a new guest and enters their information,
@@ -26,9 +27,9 @@ through the API or by the DBMS itself.
 @WebServlet("/RegisterNewGuest")
 public class RegisterNewGuest extends HttpServlet
 {
-	private static final long serialVersionUID = 1L;
-	private Guest newGuest;
+	
 	private DataAccessObject dataAccessObject;
+	private Guest newGuest;
 	
 	public RegisterNewGuest() 
 	{
@@ -101,3 +102,6 @@ public class RegisterNewGuest extends HttpServlet
 			return null;
 		}			
 }
+
+
+
