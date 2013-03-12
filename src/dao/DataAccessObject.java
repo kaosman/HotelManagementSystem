@@ -6,9 +6,13 @@ import model.Room;
 import model.Booking;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class DataAccessObject 
@@ -81,7 +85,8 @@ public class DataAccessObject
 	}
 
 	//Module 2 - Booking query
-	public void getAvailableHotels()
+	public Hotel getAvailableHotels(String startdate, String enddate, String hotelname, 
+			String city, String roomprice, String roomtype)
 	{
 		// Once the guest information has been entered, the agent can then query
 		// hotels for available rooms on specified dates. That is, the agent
@@ -89,6 +94,20 @@ public class DataAccessObject
 		// city, room price, and room type. For any entry that is left blank,
 		// the corresponding condition is not applied (e.g., if city is left
 		// blank, all cities are considered).
+		
+		Hotel hotel = null;
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date sdate = (Date) dateFormat.parse(startdate);
+			Date edate = (Date) dateFormat.parse(enddate);
+		} catch (ParseException e) {
+			System.err.println("Unable to parse date to SQL format");
+			e.printStackTrace();
+		}
+		
+		final String sql = "SELECT * FROM HOTEL WHERE hotelName ";
+		
+		return hotel;
 	}
 
 	public void getRoomInfo()

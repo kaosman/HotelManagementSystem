@@ -1,0 +1,308 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf470
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww12600\viewh13380\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 Q1. CREATE TABLE Hotel (\
+	hotelID	 char(4) PRIMARY KEY,\
+	hotelName	 varchar(30) NOT NULL,\
+	city	 varchar(9) NOT NULL,\
+	CONSTRAINT chk_city CHECK (city='Guelph' OR city='Kitchener' OR city='Waterloo')\
+);\
+\
+insert into hotel values('1000','Hilton','Guelph');\
+insert into hotel values('1001','Watergate','Waterloo');\
+insert into hotel values('1002','Ritz','Kitchener');\
+insert into hotel values('1003','Ritz','Waterloo');\
+insert into hotel values('1004','George V','Waterloo');\
+insert into hotel values('1005','Delta','Guelph');\
+insert into hotel values('1006', 'Sheraton', 'Guelph');\
+insert into hotel values('1007', 'Saravana Bhavan', 'Waterloo');\
+insert into hotel values('1008', 'JW Mariott', 'Kitchener');\
+insert into hotel values('1009', 'Kempinski', 'Waterloo');\
+insert into hotel values('1010', 'Kempinski', 'Kitchener');\
+insert into hotel values('1011', 'Kempinski', 'Guelph');\
+\
+******************************************************************************************************************\
+CREATE TABLE Hotel (\
+	hotelID	 char(4) PRIMARY KEY,\
+	hotelName	 varchar(30) NOT NULL,\
+	city	 varchar(9) NOT NULL,\
+	CONSTRAINT chk_city CHECK (city='Guelph' OR city='Kitchener' OR city='Waterloo')\
+);\
+\
+insert into hotel values('1006', 'Sheraton', 'Guelph');\
+insert into hotel values('1007', 'Saravana Bhavan', 'Waterloo');\
+insert into hotel values('1008', 'JW Mariott', 'Kitchener');\
+insert into hotel values('1009', 'Kempinski', 'Waterloo');\
+insert into hotel values('1010', 'Kempinski', 'Kitchener');\
+insert into hotel values('1011', 'Kempinski', 'Guelph');\
+\
+\
+******************************************************************************************************************\
+\
+Q2.CREATE TABLE Room (\
+hotelID char(4),\
+roomNo char(4),\
+price numeric(10,2) NOT NULL CONSTRAINT chk_price CHECK (price>=50.00 AND price <=250.00),\
+roomType varchar(6) NOT NULL CONSTRAINT chk_type CHECK (roomType='Single' OR roomType='Double' OR roomType='Queen' OR roomType='King'),\
+PRIMARY KEY (roomNo, hotelID),\
+FOREIGN KEY (hotelID) REFERENCES Hotel(hotelID)\
+);\
+\
+insert into room values(1001, 5000, 86, 'Double');\
+insert into room values(1001, 5001, 79.99, 'Single');\
+insert into room values(1001, 5002, 59.99, 'Queen');\
+insert into room values(1002, 5001, 100, 'King');\
+insert into room values(1002, 5002, 150, 'King');\
+insert into room values(1003, 5000, 180, 'Single');\
+insert into room values(1004, 5007, 200, 'King');\
+insert into room values(1004, 5001, 50, 'Queen');\
+insert into room values(1008, 5000, 86, 'Double');\
+insert into room values(1008, 5001, 79.99, 'Single');\
+insert into room values(1008, 5002, 99.99, 'Queen');\
+insert into room values(1009, 5001, 100, 'King');\
+insert into room values(1010, 5000, 150, 'King');\
+insert into room values(1011, 5000, 180, 'Single');\
+insert into room values(1011, 5001, 225, 'Double');\
+insert into room values(1011, 5002, 50, 'Queen');\
+******************************************************************************************************************\
+\
+q3. CREATE TABLE Booking (\
+hotelID char(4),\
+roomNo char(4),\
+guestID char(4),\
+startDate date,\
+endDate date NOT NULL,\
+PRIMARY KEY (hotelID, guestID, roomNo, startDate),\
+FOREIGN KEY (roomNo,hotelID) REFERENCES Room(roomNo,hotelID),\
+FOREIGN KEY (guestID) REFERENCES Guest(guestID)\
+);\
+\
+insert into booking values(1001, 5000, 2001, '2013-01-01', '2013-01-08');\
+insert into booking values(1001, 5001, 2002, '2013-02-15', '2013-03-15');\
+insert into booking values(1001, 5002, 2003, '2013-01-02', '2013-02-07');\
+insert into booking values(1002, 5001, 2004, '2013-04-01', '2013-04-08');\
+insert into booking values(1002, 5002, 2005, '2013-04-15', '2013-05-15');\
+insert into booking values(1003, 5000, 2006, '2013-05-02', '2013-05-17');\
+insert into booking values(1004, 5000, 2007, '2013-01-01', '2013-02-08');\
+insert into booking values(1004, 5001, 2008, '2013-02-15', '2013-03-15');\
+insert into booking values(1004, 5003, 2009, '2013-01-02', '2013-02-07');\
+insert into booking values(1004, 5004, 2010, '2013-01-11', '2013-04-08');\
+insert into booking values(1004, 5005, 2001, '2013-03-15', '2013-05-15');\
+insert into booking values(1005, 5001, 2002, '2013-04-12', '2013-02-27');\
+insert into booking values(1005, 5002, 2003, '2013-01-12', '2013-03-27');\
+\
+******************************************************************************************************************\
+CREATE TABLE Booking (\
+bookingID SERIAL,\
+hotelID char(4),\
+roomNo char(4),\
+guestID int,\
+startDate date,\
+endDate date NOT NULL,\
+PRIMARY KEY (bookingID, hotelID, guestID, roomNo, startDate),\
+FOREIGN KEY (roomNo,hotelID) REFERENCES Room(roomNo,hotelID),\
+FOREIGN KEY (guestID) REFERENCES Guest(guestID)\
+);\
+\
+insert into booking (hotelID,roomNo,guestID,startDate,endDate) values(1001, 5000, 1, '2013-01-01', '2013-01-08');\
+insert into booking (hotelID,roomNo,guestID,startDate,endDate) values(1001, 5001, 2, '2013-02-15', '2013-03-15');\
+insert into booking (hotelID,roomNo,guestID,startDate,endDate) values(1001, 5002, 3, '2013-01-02', '2013-02-07');\
+insert into booking (hotelID,roomNo,guestID,startDate,endDate) values(1002, 5001, 4, '2013-04-01', '2013-04-08');\
+insert into booking (hotelID,roomNo,guestID,startDate,endDate) values(1002, 5002, 5, '2013-04-15', '2013-05-15');\
+insert into booking (hotelID,roomNo,guestID,startDate,endDate) values(1003, 5000, 6, '2013-05-02', '2013-05-17');\
+insert into booking (hotelID,roomNo,guestID,startDate,endDate) values(1008, 5000, 7, '2013-01-01', '2013-02-08');\
+insert into booking (hotelID,roomNo,guestID,startDate,endDate) values(1004, 5001, 8, '2013-02-15', '2013-03-15');\
+insert into booking (hotelID,roomNo,guestID,startDate,endDate) values(1004, 5007, 9, '2013-01-02', '2013-02-07');\
+\
+******************************************************************************************************************\
+\
+\
+q4. CREATE TABLE Guest (\
+guestID char(4) PRIMARY KEY,\
+guestName varchar(30) NOT NULL,\
+guestAddress varchar(50) NOT NULL,\
+guestAffiliation varchar(30) NOT NULL\
+);\
+\
+insert into guest values(2001, 'Jon Snow', 'The Wall, Castle Black','Nights Watch');\
+insert into guest values(2002, 'Arya Stark', '18 Tain St, Winterfell', 'Stark');\
+insert into guest values(2003, 'Rhaegar Targaryen', '5 Dragon Castle, Dragon stone','Targaryen');\
+insert into guest values(2004, 'Danaerys Targaryen', '1 Meeren Road, Essos ','Targaryen');\
+insert into guest values(2005, 'Carol Farrel', '6 King St, Waterloo','Waterloo');\
+insert into guest values(2006, 'Kaushik Bharathan', '1900 Sheppard Avenue, Markham','IBM');\
+insert into guest values(2007, 'Tony Shaw', '12 Park Pl, Glasgow','UBC');\
+insert into guest values(2008, 'Ramsay Snow', 'Flayed men, Castle Bolton','Bolton');\
+insert into guest values(2009, 'Loras Tyrell', '19 Tain St, Highgarden','Highgarden');\
+insert into guest values(2010, 'Aegon Targaryen', '5 Griffin Castle, Griffin','Targaryen');\
+insert into guest values(2011, 'Viserys Targaryen', '1 Death Road, Essos ','Targaryen');\
+insert into guest values(2012, 'Carol Farrel', '6 King St, Waterloo','Waterloo');\
+insert into guest values(2013, 'Kaosman', 'Red keep, Kingslanding','Targaryen');\
+insert into guest values(2014, 'Madhu', '13 riverside drive, Ottawa','Cisco');\
+\
+CREATE TABLE Guest (\
+guestID SERIAL PRIMARY KEY,\
+guestName varchar(30) NOT NULL,\
+guestAddress varchar(50) NOT NULL,\
+guestAffiliation varchar(30) NOT NULL\
+);\
+\
+insert into guest (guestname,guestaddress,guestaffiliation) values('Jon Snow', 'The Wall, Castle Black','Nights Watch');\
+insert into guest (guestname,guestaddress,guestaffiliation)  values('Arya Stark', '18 Tain St, Winterfell', 'Stark');\
+insert into guest (guestname,guestaddress,guestaffiliation)  values('Rhaegar Targaryen', '5 Dragon Castle, Dragon stone','Targaryen');\
+insert into guest (guestname,guestaddress,guestaffiliation)  values('Danaerys Targaryen', '1 Meeren Road, Essos ','Targaryen');\
+insert into guest (guestname,guestaddress,guestaffiliation)  values('Carol Farrel', '6 King St, Waterloo','Waterloo');\
+insert into guest (guestname,guestaddress,guestaffiliation)  values('Kaushik Bharathan', '1900 Sheppard Avenue, Markham','IBM');\
+insert into guest (guestname,guestaddress,guestaffiliation)  values('Tony Shaw', '12 Park Pl, Glasgow','UBC');\
+insert into guest (guestname,guestaddress,guestaffiliation)  values('Ramsay Snow', 'Flayed men, Castle Bolton','Bolton');\
+insert into guest (guestname,guestaddress,guestaffiliation)  values('Loras Tyrell', '19 Tain St, Highgarden','Highgarden');\
+insert into guest (guestname,guestaddress,guestaffiliation)  values('Aegon Targaryen', '5 Griffin Castle, Griffin','Targaryen');\
+insert into guest (guestname,guestaddress,guestaffiliation)  values('Viserys Targaryen', '1 Death Road, Essos ','Targaryen');\
+insert into guest (guestname,guestaddress,guestaffiliation)  values('Carol Farrel', '6 King St, Waterloo','Waterloo');\
+insert into guest (guestname,guestaddress,guestaffiliation)  values('Kaosman', 'Red keep, Kingslanding','Targaryen');\
+insert into guest (guestname,guestaddress,guestaffiliation)  values('Madhu', '13 riverside drive, Ottawa','Cisco');\
+\
+\
+\
+dml Q1. SELECT h1.hotelname, COUNT(h1.hotelname), h2.city\
+FROM hotel h1, hotel h2\
+WHERE h1.hotelname = h2.hotelname\
+GROUP BY h1.hotelname, h2.city\
+HAVING COUNT(h1.hotelname) >= 3\
+\
+Q2. SELECT r.hotelid, r.roomno, r.price, r.roomtype, b.startdate, b.enddate\
+FROM Room r\
+INNER JOIN Hotel h ON (r.hotelID = h.hotelid)\
+JOIN Booking b ON (r.roomno = b.roomno AND r.hotelID = b.hotelID)\
+WHERE r.roomtype = 'King' OR r.roomtype = 'Queen' AND \
+(b.startdate NOT BETWEEN CAST('2013-04-05' AS DATE) AND CAST('2013-04-12' AS DATE)) AND (b.enddate NOT BETWEEN CAST('2013-04-05' AS DATE) AND CAST('2013-04-12' AS DATE))\
+\
+Q3. SELECT h.hotelName, h.city, r.roomtype,b.startdate,b.enddate, MIN(r.price) AS min_price\
+FROM Hotel h\
+INNER JOIN Room r ON h.hotelID = r.hotelID\
+INNER JOIN Booking b ON h.hotelID = b.hotelID\
+GROUP BY h.hotelName, h.city, r.roomtype,b.startdate,b.enddate\
+HAVING r.roomtype = 'King' AND (b.startdate NOT BETWEEN CAST('2013-05-01' AS DATE) AND CAST('2013-05-15' AS DATE)) AND (b.enddate NOT BETWEEN CAST('2013-05-01' AS DATE) AND CAST('2013-05-15' AS DATE))\
+\
+Q4. SELECT b.hotelID,b.roomno,b.startdate,b.enddate,g.guestname,g.guestaddress\
+FROM booking b\
+INNER JOIN guest g\
+ON b.guestID = g.guestID\
+WHERE (b.startdate BETWEEN CAST('2013-01-01' AS DATE) AND CAST('2013-01-31' AS DATE)) OR (b.enddate BETWEEN CAST('2013-01-01' AS DATE) AND CAST('2013-01-31' AS DATE))\
+\
+\
+\
+SELECT guestname,guestaddress FROM ( SELECT b.hotelID,b.roomno,b.startdate,b.enddate,g.guestname,g.guestaddress\
+FROM booking b\
+INNER JOIN guest g\
+ON b.guestID = g.guestID\
+WHERE (b.startdate BETWEEN CAST('2013-01-01' AS DATE) AND CAST('2013-01-31' AS DATE)) OR (b.enddate BETWEEN CAST('2013-01-01' AS DATE) AND CAST('2013-01-31' AS DATE))) AS qfour\
+GROUP BY guestname,guestaddress\
+HAVING COUNT (DISTINCT hotelid) = 2\
+\
+q5. SELECT COUNT(b.guestID), SUM(r.price), b.hotelid,h.city,g.guestaffiliation\
+FROM booking b\
+INNER JOIN guest g ON b.guestid = g.guestid \
+JOIN room r ON b.hotelid = r.hotelid AND b.roomno = r.roomno\
+INNER JOIN hotel h ON b.hotelid = h.hotelid\
+GROUP BY b.hotelid, g.guestaffiliation,h.city,b.startdate,b.enddate\
+HAVING g.guestaffiliation = 'Targaryen' AND h.city = 'Waterloo' AND CURRENT_DATE BETWEEN b.startdate AND b.enddate\
+\
+q6. SELECT SUM(r1.price)\
+FROM Room r1\
+WHERE r1.roomno NOT IN (\
+	SELECT roomno \
+	FROM Booking b, hotel h\
+	WHERE (startdate <= CURRENT_DATE AND enddate >= CURRENT_DATE) \
+	AND h.hotelid = b.hotelid AND hotelname = 'Radisson'\
+)\
+\
+SELECT COUNT(h1.hotelID) AS RadissonHotelCount, h1.hotelname,((TO_NUMBER(TO_CHAR((CURRENT_DATE + INTERVAL '1 month'), 'DD'))- temp1.booked_days_count)*r.price AS\
+FROM Hotel h1, Room r,\
+	(\
+	SELECT SUM(b.enddate-b.startdate + 1) AS booked_days_count,b.hotelid AS temphotelid,b.roomno AS temproomno\
+	FROM Booking b, Hotel h2 \
+	WHERE h2.hotelname = 'RADISSON'\
+	AND h2.hotelId=b.hotelId\
+	AND (b.startdate <= CURRENT_DATE AND b.enddate >= CURRENT_DATE)\
+	GROUP BY b.hotelid,b.roomno\
+	) AS temp1\
+\
+WHERE temp1.temphotelid=r.hotelid\
+AND temp1.temproomnno=r.roomno\
+AND r.hotelid=h1.hotelid;\
+		\
+\
+psm1. CREATE OR REPLACE FUNCTION PopulateHotelRooms(hotelID CHAR(4), noFloors INTEGER, noFRooms INTEGER)\
+RETURNS VOID AS $$\
+DECLARE \
+	roomno CHAR(4);\
+	floor_cnt INTEGER = 1;\
+	room_cnt INTEGER = 1;\
+BEGIN\
+	WHILE floor_cnt <= noFLoors\
+	LOOP\
+		WHILE room_cnt <= noFRooms\
+		LOOP\
+			roomno := trim(to_char(floor_cnt,'00'))||trim(to_char(room_cnt,'00'));\
+			INSERT INTO Room VALUES (PopulateHotelRooms.hotelID, roomno,'50.00' ,'Double');\
+			room_cnt := room_cnt + 1;\
+		END LOOP;\
+		floor_cnt := floor_cnt + 1;\
+	END LOOP;\
+END\
+$$ LANGUAGE plpgsql;\
+\
+psm2. CREATE OR REPLACE FUNCTION UpdateRooms(hotelID CHAR(4), rIDPattern VARCHAR(10), rType CHAR(10), rPrice REAL)\
+RETURNS VOID AS $$\
+DECLARE \
+	roomcursor CURSOR FOR (SELECT Price, RoomType FROM Room WHERE Room.hotelid = UpdateRooms.hotelID AND Room.roomno ~* UpdateRooms.rIDPattern);\
+	roomprice REAL;\
+	roomtype CHAR(10);\
+BEGIN\
+	OPEN roomcursor;\
+		LOOP\
+			FETCH roomcursor INTO roomprice, roomtype;\
+			EXIT WHEN NOT FOUND;		\
+		UPDATE Room SET Room.Price = UpdateRooms.rPrice, Room.type = UpdateRooms.rType WHERE CURRENT of roomcursor;\
+		END LOOP;\
+	CLOSE roomcursor;\
+END\
+$$ LANGUAGE plpgsql;\
+\
+psm3.\
+\
+\
+CREATE or REPLACE TRIGGER T1\
+AFTER INSERT or UPDATE on Booking FOR EACH ROW\
+DECLARE\
+	v_check number;\
+BEGIN\
+select 1 into v_check from booking where rowid=:new.rowid;\
+\
+if v_check=1 then\
+update bookingLog set \
+hotelid=:new.hotelid,\
+roomno=:new.roomno,\
+guestid=:new.guestid,\
+startdate=:new.startdate,\
+enddate=:new.enddate,\
+userid=APEX_UTIL.GET_CURRENT_USER_ID,\
+changedate=sysdate\
+where rowid=:new.rowid;\
+\
+else \
+insert into bookinglog values(:new.hotelid,\
+:new.roomno,\
+:new.guestid,\
+:new.startdate,\
+:new.enddate,\
+null,\
+null);\
+\
+end if;\
+\
+end;\
+}

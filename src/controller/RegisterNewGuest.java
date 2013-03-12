@@ -1,10 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +10,6 @@ import javax.servlet.http.HttpSession;
 
 import dao.DataAccessObject;
 
-import model.Hotel;
 import model.Guest;
 
 /**A booking agent registers a new guest and enters their information,
@@ -28,6 +23,10 @@ through the API or by the DBMS itself.
 public class RegisterNewGuest extends HttpServlet
 {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DataAccessObject dataAccessObject;
 	private Guest newGuest;
 	
@@ -45,9 +44,9 @@ public class RegisterNewGuest extends HttpServlet
 	{
 		
 		HttpSession httpSession = request.getSession(false);
-		newGuest = this.newGuestInfo(request,response); //newPatientRecord object will store the new data
+		newGuest = this.newGuestInfo(request,response); //newGuest object will store the new data
 		
-		this.dataAccessObject.registerNewGuest(newGuest); //newPatientRecord object data is sent as a parameter to the DAO method update patient's personal record
+		this.dataAccessObject.registerNewGuest(newGuest); //newGuest object data is sent as a parameter to the DAO method to insert guest info into guest table
 	}
 	
 //	protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
