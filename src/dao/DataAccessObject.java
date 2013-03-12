@@ -15,13 +15,13 @@ public class DataAccessObject
 {
 	private Connection connectionHotel = null;
 	private ServiceProvider serviceProvider = null;
-	
+
 	public DataAccessObject() 
 	{
 		this.serviceProvider = new ServiceProvider();
 		this.connectionHotel=this.serviceProvider.getConnection();
 	}
-	
+
 	//Required DB operation methods
 	//Module 1 - Guest registration
 	public boolean registerNewGuest(Guest guest)
@@ -29,33 +29,57 @@ public class DataAccessObject
 		// A booking agent registers a new guest and enters their information,
 		// including the name and address. The guestID is auto-generated, either
 		// through the API or by the DBMS itself.
-		
+
 		final String sql = "INSERT INTO Guest(guestname,guestaddress,guestaffiliation) VALUES (?,?,?)";
-		
+
 		try{
-			
+
 			PreparedStatement statement = connectionHotel.prepareStatement(sql);
-			
+
 			statement.setString(1, guest.getGuestName());
 			statement.setString(2, guest.getGuestAddress());
 			statement.setString(3, guest.getGuestAffiliation());
 			statement.execute();
-			
+
 			return true;
-			
+
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
-	public void updateExistingGuest(String guestID)
+
+	public boolean updateExistingGuest(Guest guest)
 	{
 		// The agent can also update the information for an existing guest
 		// (except for the guestID), and can also delete the entry for a
 		// specific guest if requested.
+		final String sql = "UPDATE Guest " +
+				"SET guestname = ?, " +
+				"guestaddress = ?, " +
+				"guestaffiliation = ? " +
+				"WHERE guestid = ? ";
+
+		try
+		{
+
+			PreparedStatement statement = connectionHotel.prepareStatement(sql);
+
+			statement.setString(1, guest.getGuestName());
+			statement.setString(2, guest.getGuestAddress());
+			statement.setString(3, guest.getGuestAffiliation());
+			statement.setInt(4, guest.getGuestID());
+			statement.execute();
+
+			return true;
+
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return false;
 	}
-	
+
 	//Module 2 - Booking query
 	public void getAvailableHotels()
 	{
@@ -66,14 +90,14 @@ public class DataAccessObject
 		// the corresponding condition is not applied (e.g., if city is left
 		// blank, all cities are considered).
 	}
-	
+
 	public void getRoomInfo()
 	{
 		// The booking query returns all of the rooms that are available based
 		// on the information entered, and the query displays the hotelID,
 		// hotelName, city, roomNo, price, and type.
 	}
-	
+
 	//Module 3 - Booking registration
 	public void makeNewBooking()
 	{
@@ -85,7 +109,7 @@ public class DataAccessObject
 		// DBMS itself.The booking registration should also ensure that bookings
 		// for the same room do not overlap
 	}
-	
+
 	//Module 4 - Room Maintenance and Billing
 	public void roomMaintenance()
 	{
@@ -99,5 +123,5 @@ public class DataAccessObject
 		// Each bill printed should also be logged into the billing log for the
 		// accounting purposes.
 	}
-	
+
 }
