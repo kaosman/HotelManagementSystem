@@ -84,23 +84,17 @@ public class DataAccessObject
 		return false;
 	}
 
-	public boolean deleteExistingGuest(Guest existingGuest) {
+	public boolean deleteExistingGuest(Guest existingGuest) 
+	{
 		// The agent can also delete the information for an existing guest, if required.
-		final String sql = "UPDATE Guest " +
-				"SET guestname = ?, " +
-				"guestaddress = ?, " +
-				"guestaffiliation = ? " +
+		final String sql = "DELETE FROM Guest " +
 				"WHERE guestid = ? ";
 
 		try
 		{
 
 			PreparedStatement statement = connectionHotel.prepareStatement(sql);
-
-			statement.setString(1, existingGuest.getGuestName());
-			statement.setString(2, existingGuest.getGuestAddress());
-			statement.setString(3, existingGuest.getGuestAffiliation());
-			statement.setInt(4, existingGuest.getGuestID());
+			statement.setInt(1, existingGuest.getGuestID());
 			statement.execute();
 
 			return true;
