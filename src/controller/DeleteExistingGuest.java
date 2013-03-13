@@ -23,15 +23,14 @@ through the API or by the DBMS itself.
 * 
 * @author Guest
 */
-@WebServlet(name = "RegisterNewGuest", urlPatterns = {"/"})
-//@WebServlet("/RegisterNewGuest")
-public class RegisterNewGuest extends HttpServlet
+@WebServlet("/DeleteExistingGuest")
+public class DeleteExistingGuest extends HttpServlet
 {
 	
 	private DataAccessObject dataAccessObject;
-	private Guest newGuest;
+	private Guest existingGuest;
 	
-	public RegisterNewGuest() 
+	public DeleteExistingGuest() 
 	{
         super();
     }
@@ -45,41 +44,31 @@ public class RegisterNewGuest extends HttpServlet
 	{
 		
 		HttpSession httpSession = request.getSession(false);
-		newGuest = this.newGuestInfo(request,response); ata
+		existingGuest = this.existingGuestInfo(request,response); 
 		
-		this.dataAccessObject.registerNewGuest(newGuest); 
+		this.dataAccessObject.deleteExistingGuest(existingGuest); 
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		/* Redirect to book-form. */
-		getServletContext().getRequestDispatcher("/WEB-INF/RegisterNewGuest/RegisterNewGuest.jsp").forward(request, response);
+		getServletContext().getRequestDispatcher("/WEB-INF/DeleteExistingGuest/DeleteExistingGuest.jsp").forward(
+				request, response);
 	}
 	
 	// TODO make sure that all the form input names match with the getParams in the function
-		private Guest newGuestInfo(HttpServletRequest request,HttpServletResponse resp)
+		private Guest existingGuestInfo(HttpServletRequest request,HttpServletResponse resp)
 		{	
-			Guest newGuest = new Guest();
+			Guest existingGuest = new Guest();
 			
-			final String guestName = request.getParameter("GuestName");
-			if(!guestName.equals(""))
+			String strGuestID = request.getParameter("GuestID");
+			if (!strGuestID.equals(""))
 			{
-				newGuest.setGuestName(guestName);
-			}
+				Integer guestID = Integer.parseInt(strGuestID);
+				existingGuest.setGuestID(guestID.intValue());
+			}	
 			
-			final String guestAddress = request.getParameter("GuestAddress");
-			if(!guestAddress.equals(""))
-			{
-				newGuest.setGuestAddress(guestAddress);
-			}
-			
-			final String guestAffiliation = request.getParameter("GuestAffiliation");
-			if(!guestAffiliation.equals(""))
-			{
-				newGuest.setGuestAffiliation(guestAffiliation);
-			}
-			
-			if((guestName.equals("")) || (guestAddress.equals("")) || (guestAffiliation.equals(""))) 
+			if(strGuestID.equals("")) 
 			{	
 				try {
 					resp.sendRedirect("Error.jsp");
@@ -90,8 +79,7 @@ public class RegisterNewGuest extends HttpServlet
 			}
 			else
 			{
-				newGuest = new Guest(guestAddress, guestAffiliation, guestName);
-				return newGuest;
+				return existingGuest;
 			}
 			return null;
 		}			

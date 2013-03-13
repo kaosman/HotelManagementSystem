@@ -44,9 +44,9 @@ public class UpdateExistingGuest extends HttpServlet
 	{
 		
 		HttpSession httpSession = request.getSession(false);
-		existingGuest = this.newGuestInfo(request,response); //newPatientRecord object will store the new data
+		existingGuest = this.newGuestInfo(request,response); 
 		
-		this.dataAccessObject.updateExistingGuest(existingGuest); //newPatientRecord object data is sent as a parameter to the DAO method update patient's personal record
+		this.dataAccessObject.updateExistingGuest(existingGuest); 
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 

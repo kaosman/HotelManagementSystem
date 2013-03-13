@@ -80,6 +80,35 @@ public class DataAccessObject
 		return false;
 	}
 
+	public boolean deleteExistingGuest(Guest existingGuest) {
+		// The agent can also delete the information for an existing guest, if required.
+		final String sql = "UPDATE Guest " +
+				"SET guestname = ?, " +
+				"guestaddress = ?, " +
+				"guestaffiliation = ? " +
+				"WHERE guestid = ? ";
+
+		try
+		{
+
+			PreparedStatement statement = connectionHotel.prepareStatement(sql);
+
+			statement.setString(1, existingGuest.getGuestName());
+			statement.setString(2, existingGuest.getGuestAddress());
+			statement.setString(3, existingGuest.getGuestAffiliation());
+			statement.setInt(4, existingGuest.getGuestID());
+			statement.execute();
+
+			return true;
+
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return false;
+		
+	}
+	
 	//Module 2 - Booking query
 	public void getAvailableHotels()
 	{
@@ -123,5 +152,7 @@ public class DataAccessObject
 		// Each bill printed should also be logged into the billing log for the
 		// accounting purposes.
 	}
+
+
 
 }
