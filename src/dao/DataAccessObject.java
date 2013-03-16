@@ -240,6 +240,9 @@ public class DataAccessObject
 				}			
 			}
 		}
+		else{
+			return -1;
+		}
 		return newBookingID;
 	}
 
