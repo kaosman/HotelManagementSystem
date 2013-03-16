@@ -78,10 +78,11 @@ public class RegisterNewBooking extends HttpServlet
 			}
 			
 			final String guestID = request.getParameter("guestID");
-			if(!guestID.equals(""))
+			if (!guestID.equals(""))
 			{
-				booking.setGuestID(guestID);
-			}
+				Integer intGuestID = Integer.parseInt(guestID);
+				booking.setGuestID(intGuestID.intValue());
+			}	
 			
 			final String startDate = request.getParameter("startDate");
 			if(!startDate.equals(""))

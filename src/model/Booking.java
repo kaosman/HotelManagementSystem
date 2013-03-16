@@ -6,7 +6,7 @@ public class Booking
 	private int bookingID;
 	private String hotelID;
 	private String roomNo;
-	private String guestID;
+	private int guestID;
 	private String startdate;
 	private String enddate;
 	
@@ -14,7 +14,7 @@ public class Booking
 	{
 		
 	}
-	public Booking(String hotelID, String roomNo, String guestID,
+	public Booking(String hotelID, String roomNo, int guestID,
 			String startdate, String enddate) 
 	{
 		super();
@@ -44,10 +44,10 @@ public class Booking
 	public void setRoomNo(String roomNo) {
 		this.roomNo = roomNo;
 	}
-	public String getGuestID() {
+	public int getGuestID() {
 		return guestID;
 	}
-	public void setGuestID(String guestID) {
+	public void setGuestID(int guestID) {
 		this.guestID = guestID;
 	}
 	public String getStartdate() {

@@ -201,7 +201,7 @@ public class DataAccessObject
 			PreparedStatement statement1 = connectionHotel.prepareStatement(sql1);
 			statement1.setString(1, booking.getHotelID());
 			statement1.setString(2, booking.getRoomNo());
-			statement1.setString(3, booking.getGuestID());
+			statement1.setInt(3, booking.getGuestID());
 			statement1.setString(4, booking.getStartdate());
 			statement1.setString(5, booking.getEnddate());
 		} catch (SQLException e1) {
@@ -213,7 +213,7 @@ public class DataAccessObject
 				PreparedStatement statement2 = connectionHotel.prepareStatement(sql2);
 				statement2.setString(1, booking.getHotelID());
 				statement2.setString(2, booking.getRoomNo());
-				statement2.setString(3, booking.getGuestID());
+				statement2.setInt(3, booking.getGuestID());
 				statement2.setString(4, booking.getStartdate());
 				statement2.setString(5, booking.getEnddate());
 				statement2.execute();
@@ -228,7 +228,7 @@ public class DataAccessObject
 					PreparedStatement statement3 = connectionHotel.prepareStatement(sql3);
 					statement3.setString(1, booking.getHotelID());
 					statement3.setString(2, booking.getRoomNo());
-					statement3.setString(3, booking.getGuestID());
+					statement3.setInt(3, booking.getGuestID());
 					statement3.setString(4, booking.getStartdate());
 					statement3.setString(5, booking.getEnddate());
 					ResultSet resultSet2 = statement3.executeQuery();
