@@ -34,64 +34,18 @@
 		<div>
 			<input id="element_3" name="guestID" class="element text medium" type="text" maxlength="255" value=""/> 
 		</div> 
-		</li>		<li id="li_4" >
-		<label class="description" for="startDate">Start Date </label>
-		<span>
-			<input id="element_4_1" name="startDateMM" class="element text" size="2" maxlength="2" value="" type="text"> /
-			<label for="startDateMM">MM</label>
-		</span>
-		<span>
-			<input id="element_4_2" name="startDateDD" class="element text" size="2" maxlength="2" value="" type="text"> /
-			<label for="startDateDD">DD</label>
-		</span>
-		<span>
-	 		<input id="element_4_3" name="startDateYYYY" class="element text" size="4" maxlength="4" value="" type="text">
-			<label for="startDateYYYY">YYYY</label>
-		</span>
-	
-		<span id="calendar_4">
-			<img id="cal_img_4" class="datepicker" src="calendar.gif" alt="Pick a date.">	
-		</span>
-		<script type="text/javascript">
-			Calendar.setup({
-			inputField	 : "element_4_3",
-			baseField    : "element_4",
-			displayArea  : "calendar_4",
-			button		 : "cal_img_4",
-			ifFormat	 : "%B %e, %Y",
-			onSelect	 : selectDate
-			});
-		</script>
-		 
-		</li>		<li id="li_5" >
-		<label class="description" for="element_5">End Date </label>
-		<span>
-			<input id="element_5_1" name="endDateMM" class="element text" size="2" maxlength="2" value="" type="text"> /
-			<label for="endDateMM">MM</label>
-		</span>
-		<span>
-			<input id="element_5_2" name="endDateDD" class="element text" size="2" maxlength="2" value="" type="text"> /
-			<label for="endDateDD">DD</label>
-		</span>
-		<span>
-	 		<input id="element_5_3" name="endDateYYYY" class="element text" size="4" maxlength="4" value="" type="text">
-			<label for="endDateYYYY">YYYY</label>
-		</span>
-	
-		<span id="calendar_5">
-			<img id="cal_img_5" class="datepicker" src="calendar.gif" alt="Pick a date.">	
-		</span>
-		<script type="text/javascript">
-			Calendar.setup({
-			inputField	 : "element_5_3",
-			baseField    : "element_5",
-			displayArea  : "calendar_5",
-			button		 : "cal_img_5",
-			ifFormat	 : "%B %e, %Y",
-			onSelect	 : selectDate
-			});
-		</script>
-		 
+		</li>		
+		<li id="li_4" >
+		<label class="description" for="startDate">Start Date (yyyy-mm-dd) </label>
+		<div>
+			<input id="element_4" name="startDate" class="element text medium" type="text" maxlength="255" value=""/> 
+		</div> 
+		</li>		
+		<li id="li_5" >
+		<label class="description" for="endDate">End Date (yyyy-mm-dd) </label>
+		<div>
+			<input id="element_5" name="endDate" class="element text medium" type="text" maxlength="255" value=""/> 
+		</div> 
 		</li>
 			
 					<li class="buttons">

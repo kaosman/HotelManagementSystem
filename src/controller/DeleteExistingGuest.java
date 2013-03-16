@@ -23,7 +23,6 @@ through the API or by the DBMS itself.
 * 
 * @author Guest
 */
-@WebServlet("/DeleteExistingGuest")
 public class DeleteExistingGuest extends HttpServlet
 {
 	

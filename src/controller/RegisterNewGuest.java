@@ -18,8 +18,6 @@ through the API or by the DBMS itself.
 * 
 * @author Guest
 */
-@WebServlet(name = "RegisterNewGuest", urlPatterns = {"/"})
-//@WebServlet("/RegisterNewGuest")
 public class RegisterNewGuest extends HttpServlet
 {
 	

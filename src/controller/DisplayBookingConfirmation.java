@@ -26,10 +26,10 @@ blank, all cities are considered).
 * 
 * @author Agent
 */
-public class DisplayHotelNames extends HttpServlet
+public class DisplayBookingConfirmation extends HttpServlet
 {
 	
-	public DisplayHotelNames()
+	public DisplayBookingConfirmation()
 	{
 		
 	}
@@ -45,16 +45,24 @@ public class DisplayHotelNames extends HttpServlet
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-//		/* Redirect to display hotels form. */
-		ArrayList<String> hotelnamelist;
+		/* Redirect to display the booking confirmation form. */
+		Integer bookingID;
 
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		
-		hotelnamelist = (ArrayList<String>) session.getAttribute("hotelnamelist");
-		out.println("The available hotels are ...");
-		out.println(hotelnamelist.get(0));
-		out.println(hotelnamelist.get(1));
+		bookingID = (Integer) session.getAttribute("bookingID");
+		int booking = bookingID.intValue();
+		if (booking == -1)
+		{
+			out.println("Sorry. The booking registration did not complete successfully. \n \n");
+		}
+		else
+		{
+			out.println("The booking registration was completed successfully. \n \n");
+			out.println("The booking ID is " + bookingID);
+		}
+		out.println("\n");
 	}
 }

@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import dao.DataAccessObject;
 
+import model.Booking;
 import model.Hotel;
 import model.Guest;
 
@@ -23,12 +26,10 @@ through the API or by the DBMS itself.
 * 
 * @author Guest
 */
-@WebServlet("/RegisterNewBooking")
 public class RegisterNewBooking extends HttpServlet
 {
 	
 	private DataAccessObject dataAccessObject;
-	private Guest existingGuest;
 	
 	public RegisterNewBooking() 
 	{
@@ -44,9 +45,12 @@ public class RegisterNewBooking extends HttpServlet
 	{
 		
 		HttpSession httpSession = request.getSession(false);
-		existingGuest = this.getBookingInfo(request,response); 
-		
-		this.dataAccessObject.makeNewBooking(); 
+		Booking newBooking = this.getBookingInfo(request,response); 
+		int bookingConfirmation = this.dataAccessObject.registerNewBooking(newBooking); 
+		httpSession.setAttribute("bookingID", bookingConfirmation);
+		ServletContext context = getServletContext();
+		RequestDispatcher requestDispatcher = context.getRequestDispatcher("/DisplayBookingConfirmation");
+		requestDispatcher.forward(request, response);
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -57,36 +61,43 @@ public class RegisterNewBooking extends HttpServlet
 	}
 	
 	// TODO make sure that all the form input names match with the getParams in the function
-		private Guest getBookingInfo(HttpServletRequest request,HttpServletResponse resp)
+		private Booking getBookingInfo(HttpServletRequest request,HttpServletResponse resp)
 		{	
-			Guest existingGuest = new Guest();
+			Booking booking = new Booking();
 			
-			String strGuestID = request.getParameter("hotelID");
-			if (!strGuestID.equals(""))
+			String hotelID = request.getParameter("hotelID");
+			if (!hotelID.equals(""))
 			{
-				Integer guestID = Integer.parseInt(strGuestID);
-				existingGuest.setGuestID(guestID.intValue());
+				booking.setHotelID(hotelID);
 			}	
 			
-			final String guestName = request.getParameter("roomNumber");
-			if(!guestName.equals(""))
+			final String roomNumber = request.getParameter("roomNumber");
+			if(!roomNumber.equals(""))
 			{
-				existingGuest.setGuestName(guestName);
+				booking.setRoomNo(roomNumber);
 			}
 			
-			final String guestAddress = request.getParameter("guestID");
-			if(!guestAddress.equals(""))
+			final String guestID = request.getParameter("guestID");
+			if(!guestID.equals(""))
 			{
-				existingGuest.setGuestAddress(guestAddress);
+				booking.setGuestID(guestID);
 			}
 			
-			final String guestAffiliation = request.getParameter("startDate");
-			if(!guestAffiliation.equals(""))
+			final String startDate = request.getParameter("startDate");
+			if(!startDate.equals(""))
 			{
-				existingGuest.setGuestAffiliation(guestAffiliation);
+				booking.setStartdate(startDate);
 			}
 			
-			if((strGuestID.equals("")) || (guestName.equals("")) || (guestAddress.equals("")) || (guestAffiliation.equals(""))) 
+			
+			final String endDate = request.getParameter("endDate");
+			if(!endDate.equals(""))
+			{
+				booking.setEnddate(endDate);
+			}
+			
+			if((hotelID.equals("")) || (roomNumber.equals("")) || (guestID.equals("")) 
+					|| (startDate.equals("")) || (endDate.equals("")) ) 
 			{	
 				try {
 					resp.sendRedirect("Error.jsp");
@@ -97,7 +108,7 @@ public class RegisterNewBooking extends HttpServlet
 			}
 			else
 			{
-				return existingGuest;
+				return booking;
 			}
 			return null;
 		}			

@@ -37,7 +37,6 @@
 		<servlet-name>GetAvailableHotels</servlet-name>
 		<url-pattern>/GetAvailableHotels</url-pattern>
 	</servlet-mapping>
-	
 	<servlet>
 		<display-name>DisplayHotelNames</display-name>
 		<servlet-name>DisplayHotelNames</servlet-name>
@@ -48,5 +47,25 @@
 		<url-pattern>/DisplayHotelNames</url-pattern>
 	</servlet-mapping>
 	
+	<!-- Module 3 -->
+  		
+	<servlet>
+		<display-name>RegisterNewBooking</display-name>
+		<servlet-name>RegisterNewBooking</servlet-name>
+		<servlet-class>controller.RegisterNewBooking</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RegisterNewBooking</servlet-name>
+		<url-pattern>/RegisterNewBooking</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>DisplayBookingConfirmation</display-name>
+		<servlet-name>DisplayBookingConfirmation</servlet-name>
+		<servlet-class>controller.DisplayBookingConfirmation</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DisplayBookingConfirmation</servlet-name>
+		<url-pattern>/DisplayBookingConfirmation</url-pattern>
+	</servlet-mapping>
   	
 </web-app>
