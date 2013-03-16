@@ -11,14 +11,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import model.Booking;
 import model.Guest;
 
 public class DataAccessObject 
 {
 	private Connection connectionHotel = null;
 	private ServiceProvider serviceProvider = null;
-	private Date sdate;
-	private Date edate;
 
 	public DataAccessObject() 
 	{
@@ -85,37 +84,37 @@ public class DataAccessObject
 	}
 
 	public boolean deleteExistingGuest(Guest existingGuest) 
-    {
-        // The agent can also delete the information for an existing guest, if required.
-        final String sql = "DELETE FROM Guest " +
-                "WHERE guestid = ? ";
+	{
+		// The agent can also delete the information for an existing guest, if required.
+		final String sql = "DELETE FROM Guest " +
+				"WHERE guestid = ? ";
 
-        try
-        {
-            PreparedStatement statement = connectionHotel.prepareStatement(sql);
-            statement.setInt(1, existingGuest.getGuestID());
-            statement.execute();
+		try
+		{
+			PreparedStatement statement = connectionHotel.prepareStatement(sql);
+			statement.setInt(1, existingGuest.getGuestID());
+			statement.execute();
 
-            return true;
+			return true;
 
-        }catch(SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return false;
-    }
-	
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 	//Module 2 - Booking query
 	public ArrayList<String> getAvailableHotels(String startdate, String enddate, String hotelname, 
 			String city, String roomprice, String roomtype)
-	{
+			{
 		// Once the guest information has been entered, the agent can then query
 		// hotels for available rooms on specified dates. That is, the agent
 		// enters one or all of the following: startDate, endDate, hotelName,
 		// city, room price, and room type. For any entry that is left blank,
 		// the corresponding condition is not applied (e.g., if city is left
 		// blank, all cities are considered).
-		
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 		ArrayList<String> availableHotelNames = new ArrayList<String>();		
 
@@ -134,7 +133,7 @@ public class DataAccessObject
 				statement.setNull(1, Types.NULL);
 			else
 				statement.setString(1, startdate);
-			
+
 			if(enddate.isEmpty())	
 				statement.setNull(2, Types.NULL);
 			else
@@ -144,12 +143,12 @@ public class DataAccessObject
 				statement.setNull(3, Types.NULL);
 			else
 				statement.setString(3, hotelname);
-			
+
 			if(city.isEmpty())
 				statement.setNull(4, Types.NULL);
 			else
 				statement.setString(4, city);
-			
+
 			if(roomprice.isEmpty())
 				statement.setNull(5, Types.NULL);
 			else
@@ -170,24 +169,18 @@ public class DataAccessObject
 						" R.roomtype = " + resultSet.getString(6);
 				availableHotelNames.add(result);
 			}
-			
-			
+
+
 		}catch(SQLException e)
 		{
 			e.printStackTrace();
 		}
 		return availableHotelNames;
-	}
-
-	public void getRoomInfo()
-	{
-		// The booking query returns all of the rooms that are available based
-		// on the information entered, and the query displays the hotelID,
-		// hotelName, city, roomNo, price, and type.
-	}
+			}
 
 	//Module 3 - Booking registration
-	public int makeNewBooking()
+	//TODO : Update web.xml
+	public int registerNewBooking(Booking booking)
 	{
 		// Once an available room has been found, the agent then registers a new
 		// booking by entering the hotelID, roomNo, guestID, startDate, and
@@ -196,8 +189,58 @@ public class DataAccessObject
 		// The bookingID is auto-generated, either through the API or by the
 		// DBMS itself.The booking registration should also ensure that bookings
 		// for the same room do not overlap
-		
-		return 0;
+		int newBookingID=-1;
+		boolean flag1 = false;
+		boolean flag2 = false;
+
+		String sql1 = "SELECT hotelID,roomNo,startDate,endDate FROM Booking WHERE hotelID = ? AND roomNo = ? AND startDate = CAST(? AS DATE) AND enddate = CAST(? AS DATE)";
+		String sql2 = "INSERT INTO Booking (hotelID,roomNo,guestID,startDate,endDate) VALUES (?,?,?,CAST(? AS DATE),CAST(? AS DATE))";
+		String sql3 = "SELECT bookingID FROM Booking WHERE hotelID = ? AND roomNo = ? AND guestID = ? AND startDate = CAST(? AS DATE) AND endDate = CAST(? AS DATE)";
+
+		try {
+			PreparedStatement statement1 = connectionHotel.prepareStatement(sql1);
+			statement1.setString(1, booking.getHotelID());
+			statement1.setString(2, booking.getRoomNo());
+			statement1.setString(3, booking.getGuestID());
+			statement1.setString(4, booking.getStartdate());
+			statement1.setString(5, booking.getEnddate());
+		} catch (SQLException e1) {
+			flag1 = true;
+		}
+
+		if(flag1){
+			try {
+				PreparedStatement statement2 = connectionHotel.prepareStatement(sql2);
+				statement2.setString(1, booking.getHotelID());
+				statement2.setString(2, booking.getRoomNo());
+				statement2.setString(3, booking.getGuestID());
+				statement2.setString(4, booking.getStartdate());
+				statement2.setString(5, booking.getEnddate());
+				statement2.execute();
+				flag2 = true;
+			} 		
+			catch (SQLException e2) {
+				e2.printStackTrace();
+			}
+
+			if(flag2){
+				try {
+					PreparedStatement statement3 = connectionHotel.prepareStatement(sql3);
+					statement3.setString(1, booking.getHotelID());
+					statement3.setString(2, booking.getRoomNo());
+					statement3.setString(3, booking.getGuestID());
+					statement3.setString(4, booking.getStartdate());
+					statement3.setString(5, booking.getEnddate());
+					ResultSet resultSet2 = statement3.executeQuery();
+					newBookingID = resultSet2.getInt(0);
+					System.out.println("New booking ID is = " + newBookingID);
+
+				} catch (SQLException e3) {
+					e3.printStackTrace();
+				}			
+			}
+		}
+		return newBookingID;
 	}
 
 	//Module 4 - Room Maintenance and Billing
