@@ -84,6 +84,27 @@ public class DataAccessObject
 		return false;
 	}
 
+	public boolean deleteExistingGuest(Guest existingGuest) 
+    {
+        // The agent can also delete the information for an existing guest, if required.
+        final String sql = "DELETE FROM Guest " +
+                "WHERE guestid = ? ";
+
+        try
+        {
+            PreparedStatement statement = connectionHotel.prepareStatement(sql);
+            statement.setInt(1, existingGuest.getGuestID());
+            statement.execute();
+
+            return true;
+
+        }catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+	
 	//Module 2 - Booking query
 	public ArrayList<String> getAvailableHotels(String startdate, String enddate, String hotelname, 
 			String city, String roomprice, String roomtype)
