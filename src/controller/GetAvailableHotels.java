@@ -1,25 +1,21 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.DataAccessObject;
-
-import model.Hotel;
-import model.Guest;
 import model.Booking;
+import model.Guest;
+import model.Hotel;
 import model.Room;
+import dao.DataAccessObject;
 
 /**Once the guest information has been entered, the agent can then query
 hotels for available rooms on specified dates. That is, the agent
@@ -30,8 +26,6 @@ blank, all cities are considered).
 * 
 * @author Agent
 */
-@WebServlet("/GetAvailableHotels")
-
 public class GetAvailableHotels extends HttpServlet
 {
 	private DataAccessObject dataAccessObject;
@@ -52,50 +46,68 @@ public class GetAvailableHotels extends HttpServlet
 	
 	//TODO convert string date input to SQL date format
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		
+	{	
+		String startDate;
+		String endDate;
+		String hotelName;
+		String city;
+		String roomPrice;
+		String roomType;
+		ArrayList<String> hotelnamelist;
 		HttpSession httpSession = request.getSession(false);
+//		
+//		if(request.getParameter("StartDate") == null)
+//			startDate = "";
+//		else 
+//			startDate = request.getParameter("StartDate");
+//		
+//		if(request.getParameter("EndDate") == null)
+//			endDate = "";
+//		else 
+//			endDate = request.getParameter("EndDate");
+//
+//		if(request.getParameter("HotelName") == null)
+//			hotelName = "";
+//		else 
+//			hotelName = request.getParameter("HotelName");
+//
+//		
+//		if(request.getParameter("City") == null)
+//			city = "";
+//		else 
+//			city = request.getParameter("City");
+//		
+//		if(request.getParameter("RoomPrice") == null)
+//			roomPrice = "";
+//		else 
+//			roomPrice = request.getParameter("RoomPrice");
+//		
+//		if(request.getParameter("RoomType") == null)
+//			roomType = "";
+//		else 
+//			roomType = request.getParameter("RoomType");
+//		
 		
-		String startDate = request.getParameter("StartDate");
-		String endDate = request.getParameter("EndDate");
-		String hotelName = request.getParameter("HotelName");
-		String city = request.getParameter("City");
-		String roomPrice = request.getParameter("RoomPrice");
-		String roomType = request.getParameter("RoomType");
-				
-		this.dataAccessObject.getAvailableHotels(startDate, endDate, hotelName, city, roomPrice, roomType); //newGuest object data is sent as a parameter to the DAO method to insert guest info into guest table
+		startDate = "2013-03-01";
+		endDate = "2013-03-15";
+		hotelName = "Watergate";
+		city = "Waterloo";
+		roomPrice = "86.00";
+		roomType = "Double";
+		
+		hotelnamelist=this.dataAccessObject.getAvailableHotels(startDate, endDate, hotelName, city, roomPrice, roomType);
+		
+		httpSession.setAttribute("hotelnamelist", hotelnamelist);
+		ServletContext context = getServletContext();
+		RequestDispatcher requestDispatcher = context.getRequestDispatcher("/DisplayHotelNames");
+		requestDispatcher.forward(request, response);
+		//response.sendRedirect("/WEB-INF/DisplayHotelNames/DisplayHotelNames.jsp");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		/* Redirect to book-form. */
-		getServletContext().getRequestDispatcher("/WEB-INF/HotelDisplay/HotelDisplay.jsp").forward(
+		getServletContext().getRequestDispatcher("/WEB-INF/GetAvailableHotels/GetAvailableHotels.jsp").forward(
 				request, response);
-	}
-
-	/*
-	 * Returns true if input date is before current date.
-	 */
-	private boolean checkBeforeDate(String date) {
-
-		try {
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date inputDate;
-			inputDate = (Date) dateFormat.parse(date);
-			Date currentDate = new Date(0, 0, 0);
-
-			Calendar current = Calendar.getInstance();
-			current.setTime(currentDate);
-
-			Calendar input = Calendar.getInstance();
-			input.setTime(inputDate);
-
-			return input.before(current);
-
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
 	}
 }

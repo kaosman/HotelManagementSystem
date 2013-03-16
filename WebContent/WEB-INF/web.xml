@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>HotelManagementSystem</display-name>
+  <welcome-file-list>
+  	<welcome-file>Welcome.html</welcome-file>
+  </welcome-file-list>
+	
+	<!-- Module 1 -->
+	<servlet>
+		<display-name>RegisterNewGuest</display-name>
+		<servlet-name>RegisterNewGuest</servlet-name>
+		<servlet-class>controller.RegisterNewGuest</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RegisterNewGuest</servlet-name>
+		<url-pattern>/RegisterNewGuest</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<display-name>UpdateExistingGuest</display-name>
+		<servlet-name>UpdateExistingGuest</servlet-name>
+		<servlet-class>controller.UpdateExistingGuest</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateExistingGuest</servlet-name>
+		<url-pattern>/UpdateExistingGuest</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Module 2 -->
+	
+	<servlet>
+		<display-name>GetAvailableHotels</display-name>
+		<servlet-name>GetAvailableHotels</servlet-name>
+		<servlet-class>controller.GetAvailableHotels</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetAvailableHotels</servlet-name>
+		<url-pattern>/GetAvailableHotels</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<display-name>DisplayHotelNames</display-name>
+		<servlet-name>DisplayHotelNames</servlet-name>
+		<servlet-class>controller.DisplayHotelNames</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DisplayHotelNames</servlet-name>
+		<url-pattern>/DisplayHotelNames</url-pattern>
+	</servlet-mapping>
+	
+  	
+</web-app>
