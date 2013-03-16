@@ -141,7 +141,7 @@ public class DataAccessObject
 	}
 
 	//Module 3 - Booking registration
-	public void makeNewBooking()
+	public int makeNewBooking()
 	{
 		// Once an available room has been found, the agent then registers a new
 		// booking by entering the hotelID, roomNo, guestID, startDate, and
@@ -150,6 +150,8 @@ public class DataAccessObject
 		// The bookingID is auto-generated, either through the API or by the
 		// DBMS itself.The booking registration should also ensure that bookings
 		// for the same room do not overlap
+		
+		return 0;
 	}
 
 	//Module 4 - Room Maintenance and Billing
