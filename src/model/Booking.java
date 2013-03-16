@@ -1,22 +1,20 @@
 package model;
 
-import java.sql.Date;
-
 public class Booking 
 {
 	//Class variables
 	private String hotelID;
 	private String roomNo;
 	private String guestID;
-	private Date startdate;
-	private Date enddate;
+	private String startdate;
+	private String enddate;
 	
 	public Booking()
 	{
 		
 	}
 	public Booking(String hotelID, String roomNo, String guestID,
-			Date startdate, Date enddate) 
+			String startdate, String enddate) 
 	{
 		super();
 		this.hotelID = hotelID;
@@ -43,16 +41,16 @@ public class Booking
 	public void setGuestID(String guestID) {
 		this.guestID = guestID;
 	}
-	public Date getStartdate() {
+	public String getStartdate() {
 		return startdate;
 	}
-	public void setStartdate(Date startdate) {
+	public void setStartdate(String startdate) {
 		this.startdate = startdate;
 	}
-	public Date getEnddate() {
+	public String getEnddate() {
 		return enddate;
 	}
-	public void setEnddate(Date enddate) {
+	public void setEnddate(String enddate) {
 		this.enddate = enddate;
 	}
 }
