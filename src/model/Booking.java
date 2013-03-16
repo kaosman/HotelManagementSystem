@@ -3,6 +3,7 @@ package model;
 public class Booking 
 {
 	//Class variables
+	private int bookingID;
 	private String hotelID;
 	private String roomNo;
 	private String guestID;
@@ -22,6 +23,14 @@ public class Booking
 		this.guestID = guestID;
 		this.startdate = startdate;
 		this.enddate = enddate;
+	}
+	
+	// Getters and Setters
+	public int getBookingID() {
+		return bookingID;
+	}
+	public void setBookingID(int bookingID) {
+		this.bookingID = bookingID;
 	}
 	public String getHotelID() {
 		return hotelID;
