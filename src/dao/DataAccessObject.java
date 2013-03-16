@@ -207,7 +207,7 @@ public class DataAccessObject
 		} catch (SQLException e1) {
 			flag1 = true;
 		}
- 
+  
 		if(flag1){
 			try {
 				PreparedStatement statement2 = connectionHotel.prepareStatement(sql2);
