@@ -29,10 +29,6 @@ blank, all cities are considered).
 public class GetAvailableHotels extends HttpServlet
 {
 	private DataAccessObject dataAccessObject;
-	private Hotel hotel;
-	private Booking booking;
-	private Room room;
-	private Guest guest;
 	
 	public GetAvailableHotels()
 	{
@@ -44,7 +40,6 @@ public class GetAvailableHotels extends HttpServlet
 			this.dataAccessObject = new DataAccessObject();
 	}
 	
-	//TODO convert string date input to SQL date format
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{	
 		String startDate;
@@ -55,45 +50,38 @@ public class GetAvailableHotels extends HttpServlet
 		String roomType;
 		ArrayList<String> hotelnamelist;
 		HttpSession httpSession = request.getSession(false);
-//		
-//		if(request.getParameter("StartDate") == null)
-//			startDate = "";
-//		else 
-//			startDate = request.getParameter("StartDate");
-//		
-//		if(request.getParameter("EndDate") == null)
-//			endDate = "";
-//		else 
-//			endDate = request.getParameter("EndDate");
-//
-//		if(request.getParameter("HotelName") == null)
-//			hotelName = "";
-//		else 
-//			hotelName = request.getParameter("HotelName");
-//
-//		
-//		if(request.getParameter("City") == null)
-//			city = "";
-//		else 
-//			city = request.getParameter("City");
-//		
-//		if(request.getParameter("RoomPrice") == null)
-//			roomPrice = "";
-//		else 
-//			roomPrice = request.getParameter("RoomPrice");
-//		
-//		if(request.getParameter("RoomType") == null)
-//			roomType = "";
-//		else 
-//			roomType = request.getParameter("RoomType");
-//		
 		
-		startDate = "2013-03-01";
-		endDate = "2013-03-15";
-		hotelName = "Watergate";
-		city = "Waterloo";
-		roomPrice = "86.00";
-		roomType = "Double";
+		if(request.getParameter("StartDate") == null)
+			startDate = "";
+		else 
+			startDate = request.getParameter("StartDate");
+		
+		if(request.getParameter("EndDate") == null)
+			endDate = "";
+		else 
+			endDate = request.getParameter("EndDate");
+
+		if(request.getParameter("HotelName") == null)
+			hotelName = "";
+		else 
+			hotelName = request.getParameter("HotelName");
+
+		
+		if(request.getParameter("City") == null)
+			city = "";
+		else 
+			city = request.getParameter("City");
+		
+		if(request.getParameter("RoomPrice") == null)
+			roomPrice = "";
+		else 
+			roomPrice = request.getParameter("RoomPrice");
+		
+		if(request.getParameter("RoomType") == null)
+			roomType = "";
+		else 
+			roomType = request.getParameter("RoomType");
+
 		
 		hotelnamelist=this.dataAccessObject.getAvailableHotels(startDate, endDate, hotelName, city, roomPrice, roomType);
 		
@@ -101,7 +89,6 @@ public class GetAvailableHotels extends HttpServlet
 		ServletContext context = getServletContext();
 		RequestDispatcher requestDispatcher = context.getRequestDispatcher("/DisplayHotelNames");
 		requestDispatcher.forward(request, response);
-		//response.sendRedirect("/WEB-INF/DisplayHotelNames/DisplayHotelNames.jsp");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
