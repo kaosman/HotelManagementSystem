@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import model.Booking;
 import model.Guest;
@@ -207,7 +208,7 @@ public class DataAccessObject
 		} catch (SQLException e1) {
 			flag1 = true;
 		}
-  
+
 		if(flag1){
 			try {
 				PreparedStatement statement2 = connectionHotel.prepareStatement(sql2);
@@ -232,8 +233,10 @@ public class DataAccessObject
 					statement3.setString(4, booking.getStartdate());
 					statement3.setString(5, booking.getEnddate());
 					ResultSet resultSet2 = statement3.executeQuery();
-					newBookingID = resultSet2.getInt(0);
-					System.out.println("New booking ID is = " + newBookingID);
+					while(resultSet2.next()){
+						newBookingID = resultSet2.getInt(1);
+						System.out.println("New booking ID is = " + newBookingID);
+					}
 
 				} catch (SQLException e3) {
 					e3.printStackTrace();
@@ -246,18 +249,122 @@ public class DataAccessObject
 		return newBookingID;
 	}
 
-	//Module 4 - Room Maintenance and Billing
-	public void roomMaintenance()
-	{
-		// The administrative staff can use a separate interface to list all the
-		// arrivals (i.e., the current date equals startDate) and all the
-		// departures (i.e., the current date equals endDate) on a specific day
-		// to ensure that the rooms are maintained before and after guest
-		// arrivals, respectively. Finally, the administrative staff can print
-		// bills for the departing guests (display on screen is sufficient),
-		// based on the number of days stayed and the applicable room price.
-		// Each bill printed should also be logged into the billing log for the
-		// accounting purposes.
+	/**Module 4 - Room Maintenance and Billing
+	 * 
+	The administrative staff can use a separate interface to list all the
+	arrivals (i.e., the current date equals startDate) and all the
+	departures (i.e., the current date equals endDate) on a specific day
+	to ensure that the rooms are maintained before and after guest
+	arrivals, respectively. 
+
+	Finally, the administrative staff can print
+	bills for the departing guests (display on screen is sufficient),
+	based on the number of days stayed and the applicable room price.
+	Each bill printed should also be logged into the billing log for the
+	accounting purposes. */
+
+	public ArrayList<String> getArrivals(String HotelID){
+
+		//Assuming user enters the hotel id for which we are getting arrivals and departures
+
+		boolean flag1 = false;
+		ArrayList<String> arrivalList = new ArrayList<String>();
+		ResultSet arrivalResultSet;
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		Calendar currentDate = Calendar.getInstance();
+		//String formattedDate = dateFormat.format(currentDate.getTime().toString());
+		System.out.println(dateFormat.format(currentDate.getTime()));
+
+		//Query to fetch arrivals
+		String sql1 = "SELECT G.guestid, G.guestname, R.roomno, R.roomtype, R.price, B.startdate, B.enddate" +
+				"FROM Guest G" +
+				"JOIN Booking B ON G.guestid = B.guestid " +
+				"JOIN Room R ON B.roomno = R.roomno" +
+				"WHERE B.startdate = CAST(? AS DATE) AND R.hotelid = ?";
+
+		try {
+			PreparedStatement statement1 = connectionHotel.prepareStatement(sql1);
+			statement1.setObject(1, currentDate);
+			statement1.setString(2, HotelID);
+			flag1 = true;
+
+			arrivalResultSet = statement1.executeQuery();
+			while(arrivalResultSet.next()){
+				String arrivalResultString = "G.guestID = " + arrivalResultSet.getString(1) +
+						" G.guestname = " + arrivalResultSet.getString(2) +
+						" R.roomno = " + arrivalResultSet.getString(3) +
+						" R.price = " + arrivalResultSet.getString(4) +
+						" R.roomtype = " + arrivalResultSet.getString(5)+
+						" B.startdate = " + arrivalResultSet.getDate(6).toString()+
+						" B.enddate = " + arrivalResultSet.getDate(7).toString();	
+				arrivalList.add(arrivalResultString);
+			}
+		} catch (SQLException e1) {
+			//Flag is false and -1 is returned to servlet to send noarrivals.jsp to user
+		}
+
+		if(!flag1){
+			arrivalList.add("-1");
+			return arrivalList;
+		}
+		else
+			return arrivalList;
 	}
 
+	public ArrayList<String> getDepartures(String HotelID){
+
+		boolean flag1 = false;
+		double billingAmount;
+		long totalDaysStayed;
+		
+		ArrayList<String> departureList = new ArrayList<String>();
+		ResultSet departureResultSet;
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		Calendar currentDate = Calendar.getInstance();
+		//String formattedDate = dateFormat.format(currentDate.getTime().toString());
+		System.out.println(dateFormat.format(currentDate.getTime()));
+		
+		//Query to fetch departures
+		String sql1 = "SELECT G.guestid, G.guestname, R.roomno, R.roomtype, R.price, B.startdate, B.enddate" +
+				"FROM Guest G" +
+				"JOIN Booking B ON G.guestid = B.guestid " +
+				"JOIN Room R ON B.roomno = R.roomno" +
+				"WHERE B.enddate = CAST(? AS DATE) AND R.hotelid = ?";
+
+		try {
+			PreparedStatement statement1 = connectionHotel.prepareStatement(sql1);
+			statement1.setObject(1, currentDate);
+			statement1.setString(2, HotelID);
+			flag1 = true;
+			
+			departureResultSet = statement1.executeQuery();
+			while(departureResultSet.next()){
+				
+				totalDaysStayed = (departureResultSet.getDate(7).getTime() - departureResultSet.getDate(6).getTime()) / 86400000;
+				billingAmount = totalDaysStayed * departureResultSet.getDouble(4);
+				
+				String departureResultString = "G.guestID = " + departureResultSet.getString(1) +
+						" G.guestname = " + departureResultSet.getString(2) +
+						" R.roomno = " + departureResultSet.getString(3) +
+						" R.price = " + departureResultSet.getString(4) +
+						" R.roomtype = " + departureResultSet.getString(5)+
+						" B.startdate = " + departureResultSet.getDate(6).toString()+
+						" B.enddate = " + departureResultSet.getDate(7).toString()+
+						" Bill Price = " + billingAmount;
+				
+				departureList.add(departureResultString);
+			}
+		} catch (SQLException e1) {
+			//Flag is false and -1 is returned to servlet to send nodepartures.jsp to user
+		}
+
+		if(!flag1){
+			departureList.add("-1");
+			return departureList;
+		}
+		else
+			return departureList;
+	}
 }
