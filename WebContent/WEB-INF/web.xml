@@ -67,5 +67,46 @@
 		<servlet-name>DisplayBookingConfirmation</servlet-name>
 		<url-pattern>/DisplayBookingConfirmation</url-pattern>
 	</servlet-mapping>
+	
+	<!-- Module 4 -->
+  		
+	<servlet>
+		<display-name>GetAllArrivalsForToday</display-name>
+		<servlet-name>GetAllArrivalsForToday</servlet-name>
+		<servlet-class>controller.GetAllArrivalsForToday</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetAllArrivalsForToday</servlet-name>
+		<url-pattern>/GetAllArrivalsForToday</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>GetAllDeparturesForToday</display-name>
+		<servlet-name>GetAllDeparturesForToday</servlet-name>
+		<servlet-class>controller.GetAllDeparturesForToday</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetAllDeparturesForToday</servlet-name>
+		<url-pattern>/GetAllDeparturesForToday</url-pattern>
+	</servlet-mapping>	
+	
+	
+	<servlet>
+		<display-name>DisplayAllArrivalsForToday</display-name>
+		<servlet-name>DisplayAllArrivalsForToday</servlet-name>
+		<servlet-class>controller.DisplayAllArrivalsForToday</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DisplayAllArrivalsForToday</servlet-name>
+		<url-pattern>/DisplayAllArrivalsForToday</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>DisplayAllDeparturesForToday</display-name>
+		<servlet-name>DisplayAllDeparturesForToday</servlet-name>
+		<servlet-class>controller.DisplayAllDeparturesForToday</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DisplayAllDeparturesForToday</servlet-name>
+		<url-pattern>/DisplayAllDeparturesForToday</url-pattern>
+	</servlet-mapping>	
   	
 </web-app>
