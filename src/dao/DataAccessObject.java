@@ -327,11 +327,13 @@ public class DataAccessObject
 		System.out.println(dateFormat.format(currentDate.getTime()));
 		
 		//Query to fetch departures
-		String sql1 = "SELECT G.guestid, G.guestname, R.roomno, R.roomtype, R.price, B.startdate, B.enddate" +
+		String sql1 = "SELECT G.guestid, G.guestname, R.roomno, R.roomtype, R.price, B.startdate, B.enddate,B.hotelID,B.bookingID" +
 				"FROM Guest G" +
 				"JOIN Booking B ON G.guestid = B.guestid " +
 				"JOIN Room R ON B.roomno = R.roomno" +
 				"WHERE B.enddate = CAST(? AS DATE) AND R.hotelid = ?";
+		
+		String sql2 = "INSERT INTO BillingLog(bookingID,guestID,hotelID,roomNo,startDate,endDate,billPrice) VALUES(?,?,?,?,?,?,?)";
 
 		try {
 			PreparedStatement statement1 = connectionHotel.prepareStatement(sql1);
@@ -352,9 +354,27 @@ public class DataAccessObject
 						" R.roomtype = " + departureResultSet.getString(5)+
 						" B.startdate = " + departureResultSet.getDate(6).toString()+
 						" B.enddate = " + departureResultSet.getDate(7).toString()+
+						" B.hotelID = " + departureResultSet.getString(8)+
+						" B.bookingID = " + departureResultSet.getInt(9)+
 						" Bill Price = " + billingAmount;
 				
-				departureList.add(departureResultString);
+				departureList.add(departureResultString); //Add result set data into departure arraylist
+				
+				//Insert data into billing log table
+				try{
+					PreparedStatement statement2 = connectionHotel.prepareStatement(sql2);
+					statement2.setString(1, departureList.get(8));
+					statement2.setString(2, departureList.get(0));
+					statement2.setString(1, departureList.get(7));
+					statement2.setString(1, departureList.get(2));
+					statement2.setString(1, departureList.get(5));
+					statement2.setString(1, departureList.get(6));
+					statement2.setString(1, departureList.get(10));
+					statement2.execute();
+				} catch (SQLException e2){
+					System.out.println("Unable to insert data into billing log");
+				}
+				
 			}
 		} catch (SQLException e1) {
 			//Flag is false and -1 is returned to servlet to send nodepartures.jsp to user
