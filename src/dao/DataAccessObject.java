@@ -63,7 +63,6 @@ public class DataAccessObject
 				"guestaddress = ?, " +
 				"guestaffiliation = ? " +
 				"WHERE guestid = ? ";
-
 		try
 		{
 
@@ -89,13 +88,18 @@ public class DataAccessObject
 		// The agent can also delete the information for an existing guest, if required.
 		final String sql = "DELETE FROM Guest " +
 				"WHERE guestid = ? ";
+		final String sql2 = "DELETE FROM Booking WHERE guestid = ? ";
 
 		try
 		{
+			PreparedStatement statement2 = connectionHotel.prepareStatement(sql2);
+			statement2.setInt(1, existingGuest.getGuestID());
+			statement2.execute();
+			
 			PreparedStatement statement = connectionHotel.prepareStatement(sql);
 			statement.setInt(1, existingGuest.getGuestID());
 			statement.execute();
-
+		
 			return true;
 
 		}catch(SQLException e)
@@ -197,6 +201,7 @@ public class DataAccessObject
 		boolean flag1 = false;
 		boolean flag2 = false;
 
+		//Query to fetch all available rooms
 		String sql1 = "SELECT hotelID,roomNo,startDate,endDate FROM Booking WHERE hotelID = ? AND roomNo = ? AND startDate = CAST(? AS DATE) AND enddate = CAST(? AS DATE)";
 		String sql2 = "INSERT INTO Booking (hotelID,roomNo,guestID,startDate,endDate) VALUES (?,?,?,CAST(? AS DATE),CAST(? AS DATE))";
 		String sql3 = "SELECT bookingID FROM Booking WHERE hotelID = ? AND roomNo = ? AND guestID = ? AND startDate = CAST(? AS DATE) AND endDate = CAST(? AS DATE)";

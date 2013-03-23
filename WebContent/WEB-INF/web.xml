@@ -26,6 +26,16 @@
 		<url-pattern>/UpdateExistingGuest</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<display-name>DeleteExistingGuest</display-name>
+		<servlet-name>DeleteExistingGuest</servlet-name>
+		<servlet-class>controller.DeleteExistingGuest</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteExistingGuest</servlet-name>
+		<url-pattern>/DeleteExistingGuest</url-pattern>
+	</servlet-mapping>
+	
 	<!-- Module 2 -->
 	
 	<servlet>
