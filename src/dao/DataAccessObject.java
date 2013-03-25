@@ -122,31 +122,28 @@ public class DataAccessObject
 
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 		ArrayList<String> availableHotelNames = new ArrayList<String>();		
-		int index = 0;
 
 		String sql = "SELECT H.hotelid,H.hotelName, H.city, R.roomno,R.price,R.roomtype " +
 				"FROM HOTEL H "+
 				"JOIN Room R ON H.hotelid = R.hotelid "+
 				"JOIN Booking B ON H.hotelid = B.hotelid "+
-				"WHERE TRUE";
+				"WHERE (( CAST(? AS DATE) NOT BETWEEN B.startdate AND B.enddate) AND " +
+				"(CAST(? AS DATE) NOT BETWEEN B.startdate AND B.enddate) " +
+				"AND H.hotelName = ? "+
+				"AND H.city = ? AND R.price = ROUND(CAST(? AS NUMERIC),2) AND R.roomtype = ?)";
 		try{
 			PreparedStatement statement = connectionHotel.prepareStatement(sql);
-		
-			if(startdate.isEmpty()){
-				//DO nothing
-			}
-			else{
-				statement.setString(++index, startdate);
-				sql += "AND (( CAST(? AS DATE) NOT BETWEEN B.startdate AND B.enddate)";
-			}
-			if(enddate.isEmpty()){	
-				//DO nothing
-			}
-			else{
+
+			if(startdate.isEmpty())
+				statement.setNull(1, Types.NULL);
+			else
+				statement.setString(1, startdate);
+
+			if(enddate.isEmpty())	
+				statement.setNull(2, Types.NULL);
+			else
 				statement.setString(2, enddate);
-				
-				
-			}
+
 			if(hotelname.isEmpty())
 				statement.setNull(3, Types.NULL);
 			else
@@ -184,7 +181,7 @@ public class DataAccessObject
 			e.printStackTrace();
 		}
 		return availableHotelNames;
-			}
+	}
 
 	//Module 3 - Booking registration
 	//TODO : Update web.xml
