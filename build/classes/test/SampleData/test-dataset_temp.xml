@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <Hotel hotelid="1000" hotelname="Hilton" city="Guelph"/>
+  <Hotel hotelid="1001" hotelname="Watergate" city="Waterloo"/>
+  <Hotel hotelid="1002" hotelname="Ritz" city="Kitchener"/>
+  <Hotel hotelid="1003" hotelname="Ritz" city="Waterloo"/>
+  <Hotel hotelid="1004" hotelname="George V" city="Waterloo"/>
+  <Hotel hotelid="1005" hotelname="Delta" city="Guelph"/>
+  <Hotel hotelid="1006" hotelname="Sheraton" city="Guelph"/>
+  <Hotel hotelid="1007" hotelname="Saravana Bhavan" city="Waterloo"/>
+  <Hotel hotelid="1008" hotelname="JW Mariott" city="Kitchener"/>
+  <Hotel hotelid="1009" hotelname="Kempinski" city="Waterloo"/>
+  <Hotel hotelid="1010" hotelname="Kempinski" city="Kitchener"/>
+  <Hotel hotelid="1011" hotelname="Kempinski" city="Guelph"/>
+  <Room hotelid="1001" roomno="5000" price="86.00" roomtype="Double"/>
+  <Room hotelid="1001" roomno="5001" price="79.99" roomtype="Single"/>
+  <Room hotelid="1001" roomno="5002" price="59.99" roomtype="Queen"/>
+  <Room hotelid="1002" roomno="5001" price="100.00" roomtype="King"/>
+  <Room hotelid="1002" roomno="5002" price="150.00" roomtype="King"/>
+  <Room hotelid="1003" roomno="5000" price="180.00" roomtype="Single"/>
+  <Room hotelid="1004" roomno="5007" price="200.00" roomtype="King"/>
+  <Room hotelid="1004" roomno="5001" price="50.00" roomtype="Queen"/>
+  <Room hotelid="1008" roomno="5000" price="86.00" roomtype="Double"/>
+  <Room hotelid="1008" roomno="5001" price="79.99" roomtype="Single"/>
+  <Room hotelid="1008" roomno="5002" price="99.99" roomtype="Queen"/>
+  <Room hotelid="1009" roomno="5001" price="100.00" roomtype="King"/>
+  <Room hotelid="1010" roomno="5000" price="150.00" roomtype="King"/>
+  <Room hotelid="1011" roomno="5000" price="180.00" roomtype="Single"/>
+  <Room hotelid="1011" roomno="5001" price="225.00" roomtype="Double"/>
+  <Room hotelid="1011" roomno="5002" price="50.00" roomtype="Queen"/>
+  <Booking bookingid="63" hotelid="1001" roomno="5000" guestid="1" startdate="2013-01-01" enddate="2013-01-08"/>
+  <Booking bookingid="65" hotelid="1001" roomno="5002" guestid="15" startdate="2013-03-01" enddate="2013-03-15"/>
+  <Booking bookingid="66" hotelid="1001" roomno="5000" guestid="15" startdate="2013-03-20" enddate="2013-03-25"/>
+  <Booking bookingid="67" hotelid="1004" roomno="5007" guestid="8" startdate="2013-03-18" enddate="2013-03-20"/>
+  <Booking bookingid="68" hotelid="1008" roomno="5001" guestid="1" startdate="2013-03-23" enddate="2013-03-26"/>
+  <Booking bookingid="71" hotelid="1010" roomno="5000" guestid="6" startdate="2013-02-11" enddate="2013-03-23"/>
+  <Booking bookingid="72" hotelid="1010" roomno="5000" guestid="6" startdate="2013-03-11" enddate="2013-03-23"/>
+  <Booking bookingid="73" hotelid="1008" roomno="5000" guestid="9" startdate="2013-03-24" enddate="2013-04-15"/>
+  <Booking bookingid="74" hotelid="1008" roomno="5002" guestid="12" startdate="2013-03-18" enddate="2013-03-24"/>
+  <Booking bookingid="54" hotelid="1001" roomno="5000" guestid="1" startdate="2013-01-01" enddate="2013-01-08"/>
+  <Booking bookingid="55" hotelid="1001" roomno="5001" guestid="2" startdate="2013-02-15" enddate="2013-03-15"/>
+  <Booking bookingid="56" hotelid="1001" roomno="5002" guestid="3" startdate="2013-01-02" enddate="2013-02-07"/>
+  <Booking bookingid="57" hotelid="1002" roomno="5001" guestid="4" startdate="2013-04-01" enddate="2013-04-08"/>
+  <Booking bookingid="58" hotelid="1002" roomno="5002" guestid="5" startdate="2013-04-15" enddate="2013-05-15"/>
+  <Booking bookingid="59" hotelid="1003" roomno="5000" guestid="6" startdate="2013-05-02" enddate="2013-05-17"/>
+  <Booking bookingid="61" hotelid="1004" roomno="5001" guestid="8" startdate="2013-02-15" enddate="2013-03-15"/>
+  <Booking bookingid="62" hotelid="1004" roomno="5007" guestid="9" startdate="2013-01-02" enddate="2013-02-07"/>
+  <Guest guestid="1" guestname="Jon Snow" guestaddress="The Wall, Castle Black" guestaffiliation="Nights Watch"/>
+  <Guest guestid="2" guestname="Arya Stark" guestaddress="18 Tain St, Winterfell" guestaffiliation="Stark"/>
+  <Guest guestid="3" guestname="Rhaegar Targaryen" guestaddress="5 Dragon Castle, Dragon stone" guestaffiliation="Targaryen"/>
+  <Guest guestid="4" guestname="Danaerys Targaryen" guestaddress="1 Meeren Road, Essos " guestaffiliation="Targaryen"/>
+  <Guest guestid="5" guestname="Carol Farrel" guestaddress="6 King St, Waterloo" guestaffiliation="Waterloo"/>
+  <Guest guestid="6" guestname="Kaushik Bharathan" guestaddress="1900 Sheppard Avenue, Markham" guestaffiliation="IBM"/>
+  <Guest guestid="8" guestname="Ramsay Snow" guestaddress="Flayed men, Castle Bolton" guestaffiliation="Bolton"/>
+  <Guest guestid="9" guestname="Loras Tyrell" guestaddress="19 Tain St, Highgarden" guestaffiliation="Highgarden"/>
+  <Guest guestid="10" guestname="Aegon Targaryen" guestaddress="5 Griffin Castle, Griffin" guestaffiliation="Targaryen"/>
+  <Guest guestid="11" guestname="Viserys Targaryen" guestaddress="1 Death Road, Essos " guestaffiliation="Targaryen"/>
+  <Guest guestid="12" guestname="Carol Farrel" guestaddress="6 King St, Waterloo" guestaffiliation="Waterloo"/>
+  <Guest guestid="13" guestname="Kaosman" guestaddress="Red keep, Kingslanding" guestaffiliation="Targaryen"/>
+  <Guest guestid="14" guestname="Madhu" guestaddress="13 riverside drive, Ottawa" guestaffiliation="Cisco"/>
+  <Guest guestid="15" guestname="Keyur" guestaddress="123, Kitchener" guestaffiliation="Blackberry"/>
+  <Guest guestid="16" guestname="Daemon Blackfyre" guestaddress="Palace of Summerhall" guestaffiliation="Golden Company"/>
+  <BillingLog billingid="1" bookingid="67" guestid="8" hotelid="1004" roomno="5007" startdate="2013-03-18" enddate="2013-03-20" billprice="400.00"/>
+  <BillingLog billingid="2" bookingid="67" guestid="8" hotelid="1004" roomno="5007" startdate="2013-03-18" enddate="2013-03-20" billprice="400.00"/>
+  <BillingLog billingid="3" bookingid="74" guestid="12" hotelid="1008" roomno="5002" startdate="2013-03-18" enddate="2013-03-24" billprice="599.94"/>
+</dataset>
