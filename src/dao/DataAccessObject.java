@@ -95,11 +95,11 @@ public class DataAccessObject
 			PreparedStatement statement2 = connectionHotel.prepareStatement(sql2);
 			statement2.setInt(1, existingGuest.getGuestID());
 			statement2.execute();
-			
+
 			PreparedStatement statement = connectionHotel.prepareStatement(sql);
 			statement.setInt(1, existingGuest.getGuestID());
 			statement.execute();
-		
+
 			return true;
 
 		}catch(SQLException e)
@@ -110,9 +110,8 @@ public class DataAccessObject
 	}
 
 	//Module 2 - Booking query
-	public ArrayList<String> getAvailableHotels(String startdate, String enddate, String hotelname, 
-			String city, String roomprice, String roomtype)
-			{
+	public ArrayList<String> getAvailableHotels(String startdate, String enddate, String hotelname, String city, String roomprice, String roomtype)
+	{
 		// Once the guest information has been entered, the agent can then query
 		// hotels for available rooms on specified dates. That is, the agent
 		// enters one or all of the following: startDate, endDate, hotelName,
@@ -121,57 +120,61 @@ public class DataAccessObject
 		// blank, all cities are considered).
 
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-		ArrayList<String> availableHotelNames = new ArrayList<String>();		
+		ArrayList<String> availableHotelNames = new ArrayList<String>();	
+		String sql;
+		int index=0;
 
-		String sql = "SELECT H.hotelid,H.hotelName, H.city, R.roomno,R.price,R.roomtype " +
+		sql = "SELECT H.hotelid,H.hotelName, H.city, R.roomno,R.price,R.roomtype " +
 				"FROM HOTEL H "+
 				"JOIN Room R ON H.hotelid = R.hotelid "+
 				"JOIN Booking B ON H.hotelid = B.hotelid "+
-				"WHERE (( CAST(? AS DATE) NOT BETWEEN B.startdate AND B.enddate) AND " +
-				"(CAST(? AS DATE) NOT BETWEEN B.startdate AND B.enddate) " +
-				"AND H.hotelName = ? "+
-				"AND H.city = ? AND R.price = ROUND(CAST(? AS NUMERIC),2) AND R.roomtype = ?)";
+				"WHERE TRUE ";
+
 		try{
 			PreparedStatement statement = connectionHotel.prepareStatement(sql);
 
-			if(startdate.isEmpty())
-				statement.setNull(1, Types.NULL);
-			else
-				statement.setString(1, startdate);
+			if((!startdate.isEmpty()) && (!(enddate.isEmpty()))) 
+			{
+				sql += "AND (( CAST(? AS DATE) NOT BETWEEN B.startdate AND B.enddate) AND " +"(CAST(? AS DATE) NOT BETWEEN B.startdate AND B.enddate) ";
+				statement.setString(++index, startdate);
+				statement.setString(++index, enddate);
+			}
 
-			if(enddate.isEmpty())	
-				statement.setNull(2, Types.NULL);
-			else
-				statement.setString(2, enddate);
+			if(!hotelname.isEmpty())
+			{
+				sql+= "AND H.hotelName = ? ";
+				statement.setString(++index, hotelname);
+			}
 
-			if(hotelname.isEmpty())
-				statement.setNull(3, Types.NULL);
-			else
-				statement.setString(3, hotelname);
 
-			if(city.isEmpty())
-				statement.setNull(4, Types.NULL);
-			else
-				statement.setString(4, city);
+			if(!city.isEmpty())
+			{
+				sql += "AND H.city = ? ";
+				statement.setString(++index, city);
+			}
 
-			if(roomprice.isEmpty())
-				statement.setNull(5, Types.NULL);
-			else
-				statement.setString(5, roomprice);
 
-			if(roomtype.isEmpty())
-				statement.setNull(6, Types.NULL);
-			else
-				statement.setString(6, roomtype);
+			if(!roomprice.isEmpty())
+			{
+				sql+="AND R.price = ROUND(CAST(? AS NUMERIC),2) ";
+				statement.setString(++index, roomprice);
+			}
+
+
+			if(!roomtype.isEmpty())
+			{
+				sql+="AND R.roomtype = ? ";
+				statement.setString(++index, roomtype);
+			}
 
 			ResultSet resultSet = statement.executeQuery();
 			while(resultSet.next()){
-				String result = "H.hotelid = " + resultSet.getString(1) +
-						" H.hotelName = " + resultSet.getString(2) +
-						" H.city = " + resultSet.getString(3) +
-						" R.roomno = " + resultSet.getString(4) +
-						" R.price = " + resultSet.getString(5) +
-						" R.roomtype = " + resultSet.getString(6);
+				String result = "H.hotelid = " + resultSet.getString("hotelid") +
+						" H.hotelName = " + resultSet.getString("hotelname") +
+						" H.city = " + resultSet.getString("city") +
+						" R.roomno = " + resultSet.getString("roomno") +
+						" R.price = " + resultSet.getString("roomprice") +
+						" R.roomtype = " + resultSet.getString("roomtype");
 				availableHotelNames.add(result);
 			}
 
@@ -275,7 +278,7 @@ public class DataAccessObject
 		boolean flag1 = false;
 		ArrayList<String> arrivalList = new ArrayList<String>();
 		ResultSet arrivalResultSet;
-		
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar currentDate = Calendar.getInstance();
 		//String formattedDate = dateFormat.format(currentDate.getTime().toString());
@@ -323,22 +326,22 @@ public class DataAccessObject
 		boolean flag1 = false;
 		double billingAmount;
 		long totalDaysStayed;
-		
+
 		ArrayList<String> departureList = new ArrayList<String>();
 		ResultSet departureResultSet;
-		
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar currentDate = Calendar.getInstance();
 		//String formattedDate = dateFormat.format(currentDate.getTime().toString());
 		System.out.println(dateFormat.format(currentDate.getTime()));
-		
+
 		//Query to fetch departures
 		String sql1 = "SELECT G.guestid, G.guestname, R.roomno, R.roomtype, R.price, B.startdate, B.enddate,B.hotelID,B.bookingID " +
 				"FROM Guest G " +
 				"JOIN Booking B ON G.guestid = B.guestid " +
 				"JOIN Room R ON B.roomno = R.roomno " +
 				"WHERE B.enddate = CAST(? AS DATE) AND R.hotelid = ? ";
-		
+
 		String sql2 = "INSERT INTO BillingLog(bookingID,guestID,hotelID,roomNo,startDate,endDate,billPrice) VALUES(?,?,?,?,?,?,?)";
 
 		try {
@@ -346,13 +349,13 @@ public class DataAccessObject
 			statement1.setString(1, dateFormat.format(currentDate.getTime()));
 			statement1.setString(2, HotelID);
 			flag1 = true;
-			
+
 			departureResultSet = statement1.executeQuery();
 			while(departureResultSet.next()){
-				
+
 				totalDaysStayed = (departureResultSet.getDate(7).getTime() - departureResultSet.getDate(6).getTime()) / 86400000;
 				billingAmount = totalDaysStayed * departureResultSet.getDouble(5);
-				
+
 				String departureResultString = "G.guestID = " + departureResultSet.getString(1) +
 						" G.guestname = " + departureResultSet.getString(2) +
 						" R.roomno = " + departureResultSet.getString(3) +
@@ -363,9 +366,9 @@ public class DataAccessObject
 						" B.hotelID = " + departureResultSet.getString(8)+
 						" B.bookingID = " + departureResultSet.getInt(9)+
 						" Bill Price = " + billingAmount;
-				
+
 				departureList.add(departureResultString); //Add result set data into departure arraylist
-				
+
 				//Insert data into billing log table
 				try{
 					PreparedStatement statement2 = connectionHotel.prepareStatement(sql2);
@@ -380,7 +383,7 @@ public class DataAccessObject
 				} catch (SQLException e2){
 					System.out.println("Unable to insert data into billing log");
 				}
-				
+
 			}
 		} catch (SQLException e1) {
 			//Flag is false and -1 is returned to servlet to send nodepartures.jsp to user
